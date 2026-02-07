@@ -1,11 +1,8 @@
 import requests
-from config import Config
 
-WAQI_BASE_URL = "https://api.waqi.info"
-
-# Add as many Tamil Nadu cities as you want here
-CITY_COORDINATES = {
-   "chennai": (13.0827, 80.2707),
+CITY_COORDS = {
+    # Major cities
+    "chennai": (13.0827, 80.2707),
     "coimbatore": (11.0168, 76.9558),
     "madurai": (9.9252, 78.1198),
     "tiruchirappalli": (10.7905, 78.7047),
@@ -41,44 +38,34 @@ CITY_COORDINATES = {
     "kanyakumari": (8.0883, 77.5385),
     "mayiladuthurai": (11.1035, 79.6550)
 }
+def get_weather(city):
+    city = city.lower().strip()
 
-
-def fetch_by_geo(city):
-    """
-    Fetch AQI from the nearest monitoring station using latitude & longitude.
-    Returns None if no station data is available.
-    """
-
-    city = city.lower()
-
-    if city not in CITY_COORDINATES:
-        return None
-
-    lat, lon = CITY_COORDINATES[city]
-
-    try:
-        url = f"{WAQI_BASE_URL}/feed/geo:{lat};{lon}/?token={Config.AQI_API_KEY}"
-        response = requests.get(url, timeout=10)
-        data = response.json()
-
-        if data.get("status") != "ok":
-            return None
-
-        iaqi = data["data"].get("iaqi")
-        if not iaqi or "pm25" not in iaqi:
-            return None
-
+    if city not in CITY_COORDS:
         return {
-            "pm25": iaqi["pm25"]["v"],
-            "pm10": iaqi.get("pm10", {}).get("v"),
-            "co": iaqi.get("co", {}).get("v"),
-            "no2": iaqi.get("no2", {}).get("v"),
-            "so2": iaqi.get("so2", {}).get("v"),
-            "o3": iaqi.get("o3", {}).get("v"),
-            "source": "Nearest AQI Station",
-            "data_type": "estimated"
+            "status": "unavailable",
+            "message": "Weather data not available for this city"
         }
 
-    except Exception as e:
-        print("Geo AQI error:", e)
-        return None
+    lat, lon = CITY_COORDS[city]
+
+    url = (
+        "https://api.open-meteo.com/v1/forecast"
+        f"?latitude={lat}&longitude={lon}"
+        "&current_weather=true"
+        "&hourly=relativehumidity_2m,pressure_msl"
+    )
+
+    res = requests.get(url, timeout=10).json()
+
+    current = res.get("current_weather", {})
+    hourly = res.get("hourly", {})
+
+    return {
+        "temperature": current.get("temperature"),
+        "wind_speed": current.get("windspeed"),
+        "pressure": hourly.get("pressure_msl", [None])[0],
+        "humidity": hourly.get("relativehumidity_2m", [None])[0],
+        "weather_source": "Open-Meteo",
+        "data_type": "measured"
+    }

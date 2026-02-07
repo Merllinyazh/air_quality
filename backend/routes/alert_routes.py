@@ -1,23 +1,37 @@
 from flask import Blueprint, jsonify, request
 from services.alert_service import get_alert_level
+from flask import Blueprint, jsonify, request
+from models.air_quality import AirQuality
+from models.alert import Alert
+from core import db
 
-alert_bp = Blueprint("alert", __name__, url_prefix="/api/alert")
+alert_bp = Blueprint("alerts", __name__, url_prefix="/api/alerts")
 
+@alert_bp.route("/check", methods=["GET"])
+def check_alert():
+    city = request.args.get("city", "").lower()
 
-@alert_bp.route("/", methods=["GET"])
-def alert():
-    category = request.args.get("category")
+    record = AirQuality.query.filter_by(city=city)\
+        .order_by(AirQuality.timestamp.desc()).first()
 
-    if not category:
-        return jsonify({
-            "status": "error",
-            "message": "AQI category parameter is required"
-        }), 400
+    if not record:
+        return jsonify({"error": "No AQI data found"}), 404
 
-    alert_info = get_alert_level(category)
+    alert_data = get_alert_level(record.pm25)
+
+    alert = Alert(
+        city=city,
+        aqi=record.pm25,
+        level=alert_data["level"],
+        message=alert_data["message"]
+    )
+    db.session.add(alert)
+    db.session.commit()
 
     return jsonify({
-        "category": category,
-        "alert_level": alert_info["level"],
-        "recommended_action": alert_info["action"]
+        "city": city,
+        "aqi": record.pm25,
+        "alert_level": alert_data["level"],
+        "message": alert_data["message"],
+        "timestamp": alert.timestamp.isoformat()
     })

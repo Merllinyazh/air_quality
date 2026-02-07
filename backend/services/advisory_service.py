@@ -1,36 +1,31 @@
-def get_health_advisory(category):
-    """
-    Returns health advisory message based on AQI category
-    """
+from core import db
+from models.air_quality import AirQuality
+from sqlalchemy import extract, func
 
-    advisories = {
-        "Good": {
-            "risk": "Low",
-            "message": "Air quality is satisfactory. Safe for outdoor activities."
-        },
-        "Satisfactory": {
-            "risk": "Low",
-            "message": "Air quality is acceptable. Sensitive individuals should take minor precautions."
-        },
-        "Moderate": {
-            "risk": "Medium",
-            "message": "People with respiratory issues should limit prolonged outdoor exertion."
-        },
-        "Poor": {
-            "risk": "High",
-            "message": "Avoid outdoor activities. Sensitive groups should stay indoors."
-        },
-        "Very Poor": {
-            "risk": "High",
-            "message": "Serious health risk. Outdoor activities should be avoided."
-        },
-        "Severe": {
-            "risk": "Critical",
-            "message": "Health emergency conditions. Everyone should remain indoors."
+def seasonal_risk():
+    data = db.session.query(
+        extract("month", AirQuality.timestamp).label("month"),
+        func.avg(AirQuality.pm25).label("avg_pm25")
+    ).group_by("month").all()
+
+    result = {}
+    for month, avg in data:
+        risk = "Low"
+        if avg > 200:
+            risk = "High"
+        elif avg > 100:
+            risk = "Medium"
+
+        result[int(month)] = {
+            "avg_pm25": round(avg, 2),
+            "risk": risk
         }
-    }
 
-    return advisories.get(category, {
-        "risk": "Unknown",
-        "message": "No advisory available"
-    })
+    return result
+def medical_risk(aqi):
+    if aqi <= 100:
+        return ("Low", "Normal precautions")
+    elif aqi <= 200:
+        return ("Medium", "Doctor consultation recommended")
+    else:
+        return ("High", "Immediate medical attention advised")

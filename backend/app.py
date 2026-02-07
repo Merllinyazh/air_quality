@@ -1,37 +1,52 @@
-from flask import Flask
+from flask import Flask, jsonify
+from flask_cors import CORS
+from core import db
 from config import Config
-from core import db, cors
 
-# Import blueprints
+# Routes
 from routes.aqi_routes import aqi_bp
-from routes.advisory_routes import advisory_bp
-from routes.alert_routes import alert_bp
 from routes.ml_routes import ml_bp
 from routes.seasonal_routes import seasonal_bp
+
+# Background job
+from services.background_fetcher import start_background_fetch
+
+import threading
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Initialize extensions
+    CORS(app)
     db.init_app(app)
-    cors.init_app(app)
 
-    # Register routes
     app.register_blueprint(aqi_bp)
-    app.register_blueprint(advisory_bp)
-    app.register_blueprint(alert_bp)
     app.register_blueprint(ml_bp)
     app.register_blueprint(seasonal_bp)
 
-    # Create database tables
-    with app.app_context():
-        db.create_all()
+  
 
     return app
 
 
+app = create_app()
+
 if __name__ == "__main__":
-    app = create_app()
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+        print("[✓] Database initialized")
+
+    # ✅ PASS APP TO THREAD
+    bg_thread = threading.Thread(
+        target=start_background_fetch,
+        args=(app,),        # 🔥 THIS FIXES CONTEXT
+        daemon=True
+    )
+    bg_thread.start()
+
+    print("[✓] Background AQI fetcher started (every 5 minutes)")
+    print("[✓] Data sources: OpenAQ + Open-Meteo")
+    print("[✓] ML fallback enabled")
+
+    app.run(debug=True, host="0.0.0.0", port=5000)

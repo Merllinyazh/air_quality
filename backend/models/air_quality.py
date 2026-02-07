@@ -13,7 +13,16 @@ class AirQuality(db.Model):
     no2 = db.Column(db.Float)
     so2 = db.Column(db.Float)
     o3 = db.Column(db.Float)
+    
+    
+    # ✅ Weather (THIS WAS MISSING)
+    temperature = db.Column(db.Float)
+    humidity = db.Column(db.Float)
+    wind_speed = db.Column(db.Float)
+    pressure = db.Column(db.Float)
 
+   
+   
     category = db.Column(db.String(50))
     source = db.Column(db.String(50))      # AQI.IN / OpenAQ / Nearest Station / ML
     data_type = db.Column(db.String(50))   # live / measured / estimated / predicted
