@@ -1,12 +1,23 @@
-from flask import Blueprint, request, jsonify
-from services.alert_service import alert_level
+from flask import Blueprint, jsonify, request
+from services.alert_service import get_alert_level
 
-alert_bp = Blueprint("alerts", __name__, url_prefix="/api/alerts")
+alert_bp = Blueprint("alert", __name__, url_prefix="/api/alert")
 
-# Early warning & alert level
+
 @alert_bp.route("/", methods=["GET"])
-def alerts():
-    pm25 = float(request.args.get("pm25"))
+def alert():
+    category = request.args.get("category")
+
+    if not category:
+        return jsonify({
+            "status": "error",
+            "message": "AQI category parameter is required"
+        }), 400
+
+    alert_info = get_alert_level(category)
+
     return jsonify({
-        "alert_level": alert_level(pm25)
+        "category": category,
+        "alert_level": alert_info["level"],
+        "recommended_action": alert_info["action"]
     })

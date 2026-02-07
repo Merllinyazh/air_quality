@@ -9,13 +9,8 @@ HEADERS = {
 
 
 def fetch_openaq(city):
-    """
-    Fetch measured AQI-related pollutant data from OpenAQ.
-    Returns None if no usable data is found.
-    """
-
     try:
-        url = f"{OPENAQ_BASE_URL}?city={city}&limit=1"
+        url = f"{OPENAQ_BASE_URL}?limit=1&country=IN&city={city}"
         response = requests.get(url, headers=HEADERS, timeout=10)
         data = response.json()
 
@@ -26,45 +21,21 @@ def fetch_openaq(city):
         if not measurements:
             return None
 
-        pm25 = None
-        pm10 = None
-        co = None
-        no2 = None
-        so2 = None
-        o3 = None
+        pm25 = next((m["value"] for m in measurements if m["parameter"] == "pm25"), None)
 
-        for m in measurements:
-            param = m.get("parameter")
-            value = m.get("value")
-
-            if param == "pm25":
-                pm25 = value
-            elif param == "pm10":
-                pm10 = value
-            elif param == "co":
-                co = value
-            elif param == "no2":
-                no2 = value
-            elif param == "so2":
-                so2 = value
-            elif param == "o3":
-                o3 = value
-
-        # PM2.5 is mandatory to calculate AQI
         if pm25 is None:
             return None
 
         return {
             "pm25": pm25,
-            "pm10": pm10,
-            "co": co,
-            "no2": no2,
-            "so2": so2,
-            "o3": o3,
+            "pm10": None,
+            "co": None,
+            "no2": None,
+            "so2": None,
+            "o3": None,
             "source": "OpenAQ",
             "data_type": "measured"
         }
 
-    except Exception as e:
-        print("OpenAQ error:", e)
+    except Exception:
         return None

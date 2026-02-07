@@ -1,22 +1,23 @@
-from flask import Blueprint, request, jsonify
-from services.advisory_service import medical_risk, school_advice
+from flask import Blueprint, jsonify, request
+from services.advisory_service import get_health_advisory
 
 advisory_bp = Blueprint("advisory", __name__, url_prefix="/api/advisory")
 
-# Medical risk (simulation-based)
-@advisory_bp.route("/medical", methods=["GET"])
-def medical():
-    pm25 = float(request.args.get("pm25"))
-    return jsonify({
-        "risk": medical_risk(pm25),
-        "note": "Simulation-based advisory only"
-    })
 
-# School outdoor activity advisor
-@advisory_bp.route("/school", methods=["GET"])
-def school():
-    pm25 = float(request.args.get("pm25"))
-    return jsonify({
-        "recommendation": school_advice(pm25)
-    })
+@advisory_bp.route("/", methods=["GET"])
+def advisory():
+    category = request.args.get("category")
 
+    if not category:
+        return jsonify({
+            "status": "error",
+            "message": "AQI category parameter is required"
+        }), 400
+
+    advisory = get_health_advisory(category)
+
+    return jsonify({
+        "category": category,
+        "risk_level": advisory["risk"],
+        "advisory_message": advisory["message"]
+    })
