@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime AQI - Air Quality Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Leaflet Heatmap -->
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">Air Quality Monitor</h1>
+            <ul class="nav-menu">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="realtime-aqi.html" class="active">Realtime AQI</a></li>
+                <li><a href="train-ml.html">Train ML</a></li>
+                <li><a href="predict-aqi.html">Predict AQI</a></li>
+                <li><a href="seasonal-risk.html">Seasonal Risk</a></li>
+            </ul>
+            <button id="dark-mode-toggle" class="dark-mode-btn">🌙</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Realtime AQI</h1>
+
+        <section class="section">
+            <h2>Get AQI by City</h2>
+            <input type="text" id="cityInput" placeholder="Enter city name" />
+            <button onclick="getRealtimeAQI()">Get AQI</button>
+            <div id="aqiResult" class="result"></div>
+        </section>
+
+        <section class="section">
+            <h2>AQI Map</h2>
+            <div id="map" class="map-container"></div>
+        </section>
+    </div>
+
+    <script src="realtime-aqi.js"></script>
+</body>
+</html>

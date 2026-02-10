@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict AQI - Air Quality Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">Air Quality Monitor</h1>
+            <ul class="nav-menu">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="realtime-aqi.html">Realtime AQI</a></li>
+                <li><a href="train-ml.html">Train ML</a></li>
+                <li><a href="predict-aqi.html" class="active">Predict AQI</a></li>
+                <li><a href="seasonal-risk.html">Seasonal Risk</a></li>
+            </ul>
+            <button id="dark-mode-toggle" class="dark-mode-btn">🌙</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Predict AQI</h1>
+
+        <section class="section">
+            <h2>Enter Pollutant Values</h2>
+            <form id="predictForm">
+                <input type="number" step="0.01" placeholder="PM2.5" name="pm25" required />
+                <input type="number" step="0.01" placeholder="PM10" name="pm10" required />
+                <input type="number" step="0.01" placeholder="CO" name="co" required />
+                <input type="number" step="0.01" placeholder="NO2" name="no2" required />
+                <input type="number" step="0.01" placeholder="SO2" name="so2" required />
+                <input type="number" step="0.01" placeholder="O3" name="o3" required />
+                <button type="submit">Predict AQI</button>
+            </form>
+            <div id="predictResult" class="result"></div>
+        </section>
+
+        <section class="section">
+            <h2>Prediction Visualization</h2>
+            <canvas id="prediction-chart" width="400" height="200"></canvas>
+        </section>
+    </div>
+
+    <script src="predict-aqi.js"></script>
+</body>
+</html>

@@ -21,7 +21,8 @@ class AirQuality(db.Model):
     wind_speed = db.Column(db.Float)
     pressure = db.Column(db.Float)
 
-   
+    aqi = db.Column(db.Integer)
+    dominant_pollutant = db.Column(db.String(20))
    
     category = db.Column(db.String(50))
     source = db.Column(db.String(50))      # AQI.IN / OpenAQ / Nearest Station / ML

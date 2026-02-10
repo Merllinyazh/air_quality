@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Tamil Nadu Air Quality Dashboard</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR (UNCHANGED) ================= -->
+<nav class="navbar">
+    <div class="nav-container">
+        <h1 class="nav-title">Air Quality Monitor</h1>
+        <ul class="nav-menu">
+            <li><a href="index.html" class="active">Dashboard</a></li>
+            <li><a href="realtime-aqi.html">Realtime AQI</a></li>
+            <li><a href="train-ml.html">Train ML</a></li>
+            <li><a href="predict-aqi.html">Predict AQI</a></li>
+            <li><a href="seasonal-risk.html">Seasonal Risk</a></li>
+        </ul>
+
+        <button id="dark-mode-toggle" class="dark-mode-btn">🌙</button>
+    </div>
+</nav>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container">
+
+    <h1>🌍 Tamil Nadu Weather & Air Quality Dashboard</h1>
+
+    
+
+    <!-- SEARCH -->
+    <section class="section">
+        <label class="search-label">Select District</label>
+        <select id="citySelect" class="city-select"></select>
+    </section>
+
+    <!-- FEATURED CITY -->
+    <section class="section">
+        <div id="featured-card" class="featured-card">
+            Loading…
+        </div>
+    </section>
+
+    
+
+    <!-- AQI TREND -->
+    <section class="section">
+    <h2>📊 District-wise Average AQI (PM2.5)</h2>
+    <canvas id="districtAqiChart" height="120"></canvas>
+</section>
+
+    <!-- HEALTH ADVISORY -->
+    <section class="section">
+        <h2>🏥 Health & Medical Advisory</h2>
+
+        <div class="health-grid">
+            <div class="health-card">
+                <h3>Alert Level</h3>
+                <div id="health-category">—</div>
+            </div>
+
+            <div class="health-card">
+                <h3>Medical Risk</h3>
+                <div id="medical-risk">—</div>
+            </div>
+
+            <div class="health-card">
+                <h3>Advice</h3>
+                <div id="health-advice">—</div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script src="index.js"></script>
+
+<script>
+document.getElementById("dark-mode-toggle").onclick = () => {
+    document.body.classList.toggle("dark-mode");
+};
+</script>
+
+</body>
+</html>

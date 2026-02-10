@@ -32,6 +32,10 @@ def realtime_aqi():
         "no2": record.no2,
         "so2": record.so2,
         "o3": record.o3,
+        
+        "aqi": record.aqi,
+        "category": record.category,
+        "dominant_pollutant": record.dominant_pollutant,
 
         "temperature": record.temperature,
         "humidity": record.humidity,

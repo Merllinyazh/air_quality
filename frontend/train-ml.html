@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train ML Model - Air Quality Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">Air Quality Monitor</h1>
+            <ul class="nav-menu">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="realtime-aqi.html">Realtime AQI</a></li>
+                <li><a href="train-ml.html" class="active">Train ML</a></li>
+                <li><a href="predict-aqi.html">Predict AQI</a></li>
+                <li><a href="seasonal-risk.html">Seasonal Risk</a></li>
+            </ul>
+            <button id="dark-mode-toggle" class="dark-mode-btn">🌙</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Train ML Model</h1>
+
+        <section class="section">
+            <h2>Train the Machine Learning Model</h2>
+            <p>Click the button below to start training the AQI prediction model. This may take some time.</p>
+            <button onclick="trainModel()">Train Model</button>
+            <div id="trainResult" class="result"></div>
+        </section>
+    </div>
+
+    <script src="train-ml.js"></script>
+</body>
+</html>

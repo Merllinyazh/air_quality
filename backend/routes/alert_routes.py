@@ -17,13 +17,13 @@ def check_alert():
     if not record:
         return jsonify({"error": "No AQI data found"}), 404
 
-    alert_data = get_alert_level(record.pm25)
+    alert_data = get_alert_level(record.category)
 
     alert = Alert(
         city=city,
         aqi=record.pm25,
         level=alert_data["level"],
-        message=alert_data["message"]
+        message=alert_data["action"]
     )
     db.session.add(alert)
     db.session.commit()
@@ -32,6 +32,6 @@ def check_alert():
         "city": city,
         "aqi": record.pm25,
         "alert_level": alert_data["level"],
-        "message": alert_data["message"],
+        "message": alert_data["action"],
         "timestamp": alert.timestamp.isoformat()
     })
