@@ -29,7 +29,7 @@ function getRealtimeAQI() {
                 document.getElementById('aqiResult').innerText = `No data available for ${city}. ${data.message}`;
             } else {
                 document.getElementById('aqiResult').innerText = JSON.stringify(data, null, 2);
-                updateMapForCity(city, data);
+                
             }
         })
         .catch(error => {

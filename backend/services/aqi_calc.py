@@ -97,18 +97,37 @@ def calculate_aqi_from_pollutants(data):
         if idx is not None:
             sub_indices[pollutant] = idx
 
-    # CPCB minimum rule
-    if len(sub_indices) < 3 or not any(
+    # -------------------------------
+    # NORMAL CPCB RULE
+    # -------------------------------
+    if len(sub_indices) >= 3 and any(
         p in sub_indices for p in ["pm25", "pm10"]
     ):
-        return None
+        aqi = max(sub_indices.values())
+        dominant = max(sub_indices, key=sub_indices.get)
 
-    final_aqi = max(sub_indices.values())
-    dominant = max(sub_indices, key=sub_indices.get)
+        return {
+            "aqi": aqi,
+            "category": get_aqi_category(aqi),
+            "dominant_pollutant": dominant,
+            "sub_indices": sub_indices,
+        }
 
-    return {
-        "aqi": final_aqi,
-        "category": get_aqi_category(final_aqi),
-        "dominant_pollutant": dominant,
-        "sub_indices": sub_indices,
-    }
+    # -------------------------------
+    # FALLBACK: PM2.5 ONLY (AQI.IN style)
+    # -------------------------------
+    pm25_value = pollutants.get("pm25")
+    pm25_index = calculate_sub_index("pm25", pm25_value)
+
+    if pm25_index is not None:
+        return {
+            "aqi": pm25_index,
+            "category": get_aqi_category(pm25_index),
+            "dominant_pollutant": "pm25",
+            "sub_indices": {"pm25": pm25_index},
+        }
+
+    # -------------------------------
+    # STILL NOT POSSIBLE
+    # -------------------------------
+    return None

@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Tamil Nadu Air Quality Dashboard</title>
-
+    <title>Air Quality Dashboard</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -22,66 +19,99 @@
             <li><a href="train-ml.html">Train ML</a></li>
             <li><a href="predict-aqi.html">Predict AQI</a></li>
             <li><a href="seasonal-risk.html">Seasonal Risk</a></li>
+            <li><a href="data-explorer.html">Data Explorer</a></li>
         </ul>
-
         <button id="dark-mode-toggle" class="dark-mode-btn">🌙</button>
     </div>
 </nav>
 
-<!-- ================= MAIN CONTENT ================= -->
+<!-- ================= MAIN ================= -->
 <div class="container">
 
-    <h1>🌍 Tamil Nadu Weather & Air Quality Dashboard</h1>
+    <h1>Air Quality Index</h1>
+    <h2 class="subtitle">Coimbatore, India</h2>
 
-    
+    <!-- SEARCH BAR -->
+    <div class="search-bar">
+        <input
+            type="text"
+            id="citySearch"
+            placeholder="Search city (e.g., Coimbatore, Chennai)"
+            list="cityList"
+        />
+        <datalist id="cityList">
+           <option value="ariyalur">
+<option value="chengalpattu">
+<option value="chennai">
+<option value="coimbatore">
+<option value="cuddalore">
+<option value="dharmapuri">
+<option value="dindigul">
+<option value="erode">
+<option value="kallakurichi">
+<option value="kanchipuram">
+<option value="kanyakumari">
+<option value="karur">
+<option value="krishnagiri">
+<option value="madurai">
+<option value="mayiladuthurai">
+<option value="nagapattinam">
+<option value="namakkal">
+<option value="nilgiris">
+<option value="perambalur">
+<option value="pudukkottai">
+<option value="ramanathapuram">
+<option value="ranipet">
+<option value="salem">
+<option value="sivaganga">
+<option value="tenkasi">
+<option value="thanjavur">
+<option value="theni">
+<option value="thoothukudi">
+<option value="tiruchirappalli">
+<option value="tirunelveli">
+<option value="tirupathur">
+<option value="tiruppur">
+<option value="tiruvallur">
+<option value="tiruvannamalai">
+<option value="tiruvarur">
+<option value="vellore">
+<option value="viluppuram">
+<option value="virudhunagar">
 
-    <!-- SEARCH -->
-    <section class="section">
-        <label class="search-label">Select District</label>
-        <select id="citySelect" class="city-select"></select>
-    </section>
+        </datalist>
+    </div>
 
-    <!-- FEATURED CITY -->
-    <section class="section">
-        <div id="featured-card" class="featured-card">
-            Loading…
+    <!-- DASHBOARD CARD -->
+    <div class="dashboard-card">
+
+        <!-- LEFT : WEATHER -->
+        <div class="weather-card">
+            <h3>🌦 Weather & Conditions</h3>
+            <div class="weather-item">🌡 Temperature <span id="temp">—</span></div>
+            <div class="weather-item">💧 Humidity <span id="humidity">—</span></div>
+            <div class="weather-item">🌬 Wind Speed <span id="wind">—</span></div>
+            <div class="weather-item">🧭 Pressure <span id="pressure">—</span></div>
         </div>
-    </section>
 
-    
+        <!-- RIGHT : AQI -->
+        <div class="aqi-card">
+            <div class="aqi-value" id="aqi">—</div>
+            <div class="aqi-category" id="category">—</div>
 
-    <!-- AQI TREND -->
-    <section class="section">
-    <h2>📊 District-wise Average AQI (PM2.5)</h2>
-    <canvas id="districtAqiChart" height="120"></canvas>
-</section>
-
-    <!-- HEALTH ADVISORY -->
-    <section class="section">
-        <h2>🏥 Health & Medical Advisory</h2>
-
-        <div class="health-grid">
-            <div class="health-card">
-                <h3>Alert Level</h3>
-                <div id="health-category">—</div>
+            <div class="quick-links">
+                <button>View Predictions</button>
+                <button>Calendar View</button>
             </div>
 
-            <div class="health-card">
-                <h3>Medical Risk</h3>
-                <div id="medical-risk">—</div>
-            </div>
-
-            <div class="health-card">
-                <h3>Advice</h3>
-                <div id="health-advice">—</div>
-            </div>
+            <div class="updated-time" id="updated">—</div>
         </div>
-    </section>
+
+    </div>
 
 </div>
 
 <script src="index.js"></script>
-
 <script>
 document.getElementById("dark-mode-toggle").onclick = () => {
     document.body.classList.toggle("dark-mode");

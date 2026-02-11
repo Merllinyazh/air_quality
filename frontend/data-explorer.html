@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">Air Quality Monitor</h1>
+            <ul class="nav-menu">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="realtime-aqi.html">Realtime AQI</a></li>
+                <li><a href="train-ml.html">Train ML</a></li>
+                <li><a href="predict-aqi.html">Predict AQI</a></li>
+                <li><a href="seasonal-risk.html" class="active">Seasonal Risk</a></li>
+                <li><a href="data-explorer.html">Data Explorer</a></li>
+            </ul>
+            <button id="dark-mode-toggle" class="dark-mode-btn">🌙</button>
+        </div>
+    </nav>
+<div class="container">
+    <h1>📊 Data Explorer & Analytics</h1>
+
+    <!-- SEARCH FILTER -->
+    <div class="section">
+        <input type="text" id="searchInput" placeholder="Search location...">
+
+        <select id="categoryFilter">
+            <option>All</option>
+            <option>Good</option>
+            <option>Satisfactory</option>
+            <option>Moderate</option>
+            <option>Poor</option>
+            <option>Very Poor</option>
+            <option>Severe</option>
+        </select>
+
+        <button onclick="loadData()">Search & Filter</button>
+    </div>
+
+    <!-- EXPORT -->
+    <div class="section">
+        <button onclick="downloadCSV()">Download CSV</button>
+        <button onclick="window.print()">Print</button>
+    </div>
+
+    <!-- OVERVIEW CARDS -->
+    <div class="overview-grid">
+        <div class="overview-card">
+            <h2 id="totalLocations">0</h2>
+            <p>Total Locations</p>
+        </div>
+
+        <div class="overview-card">
+            <h2 id="avgAQI">0</h2>
+            <p>Average AQI</p>
+        </div>
+
+        <div class="overview-card">
+            <h2 id="maxAQI">0</h2>
+            <p>Highest AQI</p>
+        </div>
+
+        <div class="overview-card">
+            <h2 id="minAQI">0</h2>
+            <p>Lowest AQI</p>
+        </div>
+    </div>
+
+    <!-- GRAPH -->
+    <div class="section">
+        <canvas id="aqiChart"></canvas>
+    </div>
+
+    <!-- DATA TABLE -->
+    <div class="section">
+        <table id="dataTable" border="1" width="100%">
+            <thead>
+                <tr>
+                    <th>City</th>
+                    <th>AQI</th>
+                    <th>PM2.5</th>
+                    <th>PM10</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script src="data-explorer.js"></script>
+</body>
+</html>

@@ -9,7 +9,7 @@ from routes.ml_routes import ml_bp
 from routes.seasonal_routes import seasonal_bp
 from routes.alert_routes import alert_bp
 from routes.advisory_routes import advisory_bp
-
+from routes.data_exp_routes import data_bp
 
 # Background job
 from services.background_fetcher import start_background_fetch
@@ -29,6 +29,7 @@ def create_app():
     app.register_blueprint(seasonal_bp)
     app.register_blueprint(alert_bp)
     app.register_blueprint(advisory_bp) 
+    app.register_blueprint(data_bp)
 
     @app.errorhandler(404)
     def not_found(error):
