@@ -578,3 +578,40 @@ table tr:hover {
         grid-template-columns: 1fr;
     }
 }
+.chart-container {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    margin-top: 25px;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.chart-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f4e79;
+}
+
+#chartToggleBtn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #1f4e79;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#chartToggleBtn:hover {
+    background: #163a5a;
+    transform: scale(1.05);
+}
+

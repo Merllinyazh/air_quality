@@ -114,7 +114,7 @@ async function loadDistrictBorders() {
         onEachFeature: onEachDistrict
     }).addTo(map);
 
-    startAQIAnimation();
+   
 }
 
 /* ---------------- DISTRICT STYLE + POPUP ---------------- */
@@ -134,28 +134,9 @@ function onEachDistrict(feature, layer) {
 }
 
 /* ---------------- TIME-BASED AQI ANIMATION ---------------- */
-let hour = 0;
 
-function startAQIAnimation() {
-    setInterval(() => {
-        hour++;
 
-        districtLayer.eachLayer(layer => {
-            const pm25 = Math.floor(Math.random() * 250) + 20;
 
-            layer.setStyle({
-                fillColor: getAQIColor(pm25)
-            });
-
-            layer.bindPopup(`
-                <b>${layer.feature.properties.district}</b><br>
-                PM2.5: ${pm25}<br>
-                Status: ${getAQIStatus(pm25)}<br>
-                Hour: ${hour}
-            `);
-        });
-    }, 3000); // every 3 seconds
-}
 
 /* ---------------- LEGEND ---------------- */
 function addLegend() {

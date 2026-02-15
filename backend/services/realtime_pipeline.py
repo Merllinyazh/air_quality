@@ -18,9 +18,6 @@ def fetch_and_store_realtime(city):
 
     weather = get_weather(city)
 
-        # 3️⃣ Debug check (TEMP – you can remove later)
-    print("[DEBUG] AQI DATA:", aqi_data)
-    print("[DEBUG] WEATHER DATA:", weather)
 
     # 4️⃣ Create DB record safely
     record = AirQuality(

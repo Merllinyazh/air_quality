@@ -55,4 +55,4 @@ def start_background_fetch(app):
                 except Exception as e:
                     print(f"[!] Failed for {city}: {e}")
 
-        time.sleep(300)  # 5 minutes
+        time.sleep(900)  # 5 minutes

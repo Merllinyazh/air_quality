@@ -15,8 +15,8 @@
                 <li><a href="realtime-aqi.html">Realtime AQI</a></li>
                 <li><a href="train-ml.html">Train ML</a></li>
                 <li><a href="predict-aqi.html">Predict AQI</a></li>
-                <li><a href="seasonal-risk.html" class="active">Seasonal Risk</a></li>
-                <li><a href="data-explorer.html">Data Explorer</a></li>
+                <li><a href="seasonal-risk.html" >Seasonal Risk</a></li>
+                <li><a href="data-explorer.html"class="active">Data Explorer</a></li>
             </ul>
             <button id="dark-mode-toggle" class="dark-mode-btn">🌙</button>
         </div>
@@ -24,28 +24,60 @@
 <div class="container">
     <h1>📊 Data Explorer & Analytics</h1>
 
-    <!-- SEARCH FILTER -->
+
     <div class="section">
-        <input type="text" id="searchInput" placeholder="Search location...">
+    <input
+        type="text"
+        id="citySearch"
+        placeholder="Enter District (e.g., Madurai)"
+        list="cityList"
+    />
 
-        <select id="categoryFilter">
-            <option>All</option>
-            <option>Good</option>
-            <option>Satisfactory</option>
-            <option>Moderate</option>
-            <option>Poor</option>
-            <option>Very Poor</option>
-            <option>Severe</option>
-        </select>
+    <datalist id="cityList">
+        <option value="chengalpattu">
+<option value="chennai">
+<option value="coimbatore">
+<option value="cuddalore">
+<option value="dharmapuri">
+<option value="dindigul">
+<option value="erode">
+<option value="kallakurichi">
+<option value="kanchipuram">
+<option value="kanyakumari">
+<option value="karur">
+<option value="krishnagiri">
+<option value="madurai">
+<option value="mayiladuthurai">
+<option value="nagapattinam">
+<option value="namakkal">
+<option value="nilgiris">
+<option value="perambalur">
+<option value="pudukkottai">
+<option value="ramanathapuram">
+<option value="ranipet">
+<option value="salem">
+<option value="sivaganga">
+<option value="tenkasi">
+<option value="thanjavur">
+<option value="theni">
+<option value="ariyalur"></option>
+<option value="thoothukudi">
+<option value="tiruchirappalli">
+<option value="tirunelveli">
+<option value="tirupathur">
+<option value="tiruppur">
+<option value="tiruvallur">
+<option value="tiruvannamalai">
+<option value="tiruvarur">
+<option value="vellore">
+<option value="viluppuram">
+<option value="virudhunagar">
+    
+    </datalist>
 
-        <button onclick="loadData()">Search & Filter</button>
-    </div>
-
-    <!-- EXPORT -->
-    <div class="section">
-        <button onclick="downloadCSV()">Download CSV</button>
-        <button onclick="window.print()">Print</button>
-    </div>
+    <button onclick="searchDistrict()">Search</button>
+</div>
+    
 
     <!-- OVERVIEW CARDS -->
     <div class="overview-grid">
@@ -71,27 +103,30 @@
     </div>
 
     <!-- GRAPH -->
+     <div class="chart-container">
+
+    <div class="chart-header">
+        <h2>AQI Visualization</h2>
+        
+    </div>
+
+    <button onclick="showMonthlyTrend()" id="monthlyTrendBtn">
+     Monthly Trend
+</button>
+
     <div class="section">
         <canvas id="aqiChart"></canvas>
     </div>
 
-    <!-- DATA TABLE -->
-    <div class="section">
-        <table id="dataTable" border="1" width="100%">
-            <thead>
-                <tr>
-                    <th>City</th>
-                    <th>AQI</th>
-                    <th>PM2.5</th>
-                    <th>PM10</th>
-                    <th>Category</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
 </div>
 
+    
+
 <script src="data-explorer.js"></script>
+<script>
+document.getElementById("dark-mode-toggle").onclick = () => {
+    document.body.classList.toggle("dark-mode");
+};
+</script>
 </body>
 </html>
